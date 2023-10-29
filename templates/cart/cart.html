@@ -43,36 +43,35 @@
                   </thead>
                   <tbody>
                     {% for item in cart %}
-                    {% with product=item.product %}
-                      <tr>
-                          <td class="product-col">
-                              <img style="height:100px;" src="{{product.thumbnail}}" alt="">
-                              <div class="p-title">
-                                  <h5>{{product.title}}</h5>
-                              </div>
-                          </td>
-                          <td class="price-col">$ {{product.price|floatformat:"2"}}</td>
-                          <td class="quantity-col">
-                              <div class="pro-qty">
-                                <a href="?product_id={{product.id}}&&quantity=-1">
-                                    <span class="dec qtybtn">-</span>
+                        {% with product=item.product %}
+                        <tr>
+                            <td class="product-col">
+                                <img style="height:100px;" src="{{product.thumbnail}}" alt="">
+                                <div class="p-title">
+                                    <h5>{{product.title}}</h5>
+                                </div>
+                            </td>
+                            <td class="price-col">$ {{product.price|floatformat:"2"}}</td>
+                            <td class="quantity-col">
+                                <div class="pro-qty">
+                                    <a href="?product_id={{product.id}}&&quantity=-1">
+                                        <span class="dec qtybtn">-</span>
+                                    </a>
+                                    <input disabled type="text" value="{{item.quantity}}" />
+                                    <a href="?product_id={{product.id}}&&quantity=1">
+                                        <span class="inc qtybtn">+</span>
+                                    </a>
+                                </div>
+                            </td>
+                            <td class="total">$ {{item.subtotal|floatformat:"2"}}</td>
+                            <td class="product-close">
+                                <a href="?product_id={{product.id}}&&quantity=-{{item.quantity}}" class="text-decoration-none text-dark">
+                                    X
                                 </a>
-                                <input disabled type="text" value="{{item.quantity}}">
-                                
-                                <a href="?product_id={{product.id}}&&quantity=1">
-                                    <span class="inc qtybtn">+</span>
-                                </a>
-                              </div>
-                          </td>
-                          <td class="total">$ {{item.subtotal|floatformat:"2"}}</td>
-                          <td class="product-close">
-                            <a href="?product_id={{product.id}}&&quantity=={{item.quantity}}" class="text-decoration-none text-dark">
-                                X
-                            </a>
-                          </td>
-                      </tr>
-                      {% endwith %}
-                      {% endfor %}
+                            </td>
+                        </tr>
+                        {% endwith %}
+                    {% endfor %}
                   </tbody>
               </table>
               <hr>

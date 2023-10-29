@@ -59,7 +59,7 @@ class AddCoupon(generic.View):
                 messages.warning(self.request, "The coupon expired")
                 return redirect('cart')
             
-            if current_date > active_date:
+            if current_date < active_date:
                 messages.warning(self.request, "The coupon is yet to be available")
                 return redirect('cart')
             
@@ -68,7 +68,7 @@ class AddCoupon(generic.View):
                 return redirect('cart')
             
             cart.add_coupon(coupon.id)
-            messages.warning(self.request,"Your coupon has ben include successfully")
+            messages.success(self.request,"Your coupon has ben include successfully")
             return redirect('cart')
         else:
             messages.warning(self.request,"Invalid coupon code")

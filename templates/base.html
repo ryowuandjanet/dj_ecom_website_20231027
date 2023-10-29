@@ -33,12 +33,12 @@
   {% include 'header.html' %}
 
   {% block content %}
+  
+    {% include 'scripts.html' %}
+    
+    {% block extra_script %}
+    {% endblock extra_script %}
+  
   {% endblock content %}
-
-  {% include 'scripts.html' %}
-
-  {% block extra_script %}
-  {% endblock extra_script %}
-
 </body>
 </html>
