@@ -63,6 +63,10 @@ class AddCoupon(generic.View):
                 messages.warning(self.request, "The coupon is yet to be available")
                 return redirect('cart')
             
+            if cart.total() < coupon.required_amount_to_use_coupon:
+                messages.warning(self.request, f"You have to shop at least {coupon.required_amount_to_use_coupon} to use this coupon code")
+                return redirect('cart')
+            
             cart.add_coupon(coupon.id)
             messages.warning(self.request,"Your coupon has ben include successfully")
             return redirect('cart')
