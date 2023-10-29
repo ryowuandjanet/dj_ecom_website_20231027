@@ -1,3 +1,4 @@
+import copy
 from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -11,6 +12,7 @@ from django.contrib.auth.views import (
     PasswordResetConfirmView
 )
 
+from cart.carts import Cart
 from .forms import (
     LoginForm,
     UserRegistrationForm,
@@ -23,6 +25,10 @@ from .mixins import (
 )
 
 
+@method_decorator(never_cache, name='dispatch')
+class Home(LoginRequiredMixin, generic.TemplateView):
+    login_url = 'login'
+    template_name = "account/home.html"
 
 
 @method_decorator(never_cache, name='dispatch')
@@ -56,7 +62,11 @@ class Login(LogoutRequiredMixin, generic.View):
 
 class Logout(generic.View):
     def get(self, *args, **kwargs):
+        cart = Cart(self.request)
+        current_cart = copy.deepcopy(cart.cart)
+        coupon = copy.deepcopy(cart.cart)
         logout(self.request)
+        cart.restore_after_logout(current_cart,coupon)
         return redirect('login')
 
 

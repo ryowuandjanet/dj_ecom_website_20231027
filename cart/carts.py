@@ -10,7 +10,7 @@ class Cart(object):
         cart = self.session.get(self.cart_id)
         coupon =self.session.get(self.coupon_id)
         self.cart = self.session[self.cart_id] = cart if cart else {}
-        self.coupon = self.session[self.coupon_id] = coupon if coupon else {}
+        self.coupon = self.session[self.coupon_id] = coupon if coupon else None
 
     def update(self,product_id, quantity=1):
         product = Product.objects.get(id=product_id)
@@ -57,7 +57,12 @@ class Cart(object):
         except:
             pass
         self.save()
-    
+
+    def restore_after_logout(self, cart={}, coupon=None):
+        self.cart = self.session[self.cart_id] = cart
+        self.coupon = self.session[self.coupon_id] = coupon
+        self.save()
+            
     def total(self):
         amount = sum(product['subtotal'] for product in self.cart.values())
 
